@@ -12,7 +12,6 @@ session.headers.update({
 
 # 2. When you create your ticker object, use this session
 # Example:
-ticker_data = yf.Ticker("NVDA", session=session)
 info = ticker_data.info
 
 # Set page configuration
@@ -53,7 +52,8 @@ def get_metric_safe(info_dict, key):
         return val 
 
 def calculate_metrics(ticker_symbol):
-    stock = yf.Ticker(ticker_symbol)
+    stock = yf.Ticker(ticker_symbol, session=session)
+
     try:
         info = stock.info
         if not info or len(info) < 5: return None
@@ -235,3 +235,4 @@ if ticker_list:
     else: st.warning("No data found for the input tickers.")
 
 else: st.info("Upload file or enter tickers in sidebar.")
+
