@@ -1,7 +1,19 @@
 import streamlit as st
 import yfinance as yf
 import pandas as pd
+import requests
 import numpy as np
+
+# 1. Create a custom session to 'pretend' to be a browser
+session = requests.Session()
+session.headers.update({
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
+})
+
+# 2. When you create your ticker object, use this session
+# Example:
+ticker_data = yf.Ticker("NVDA", session=session)
+info = ticker_data.info
 
 # Set page configuration
 st.set_page_config(
@@ -221,4 +233,5 @@ if ticker_list:
                             st.write("**Business Summary:**")
                             st.write(row.get('Summary', 'N/A'))
     else: st.warning("No data found for the input tickers.")
+
 else: st.info("Upload file or enter tickers in sidebar.")
